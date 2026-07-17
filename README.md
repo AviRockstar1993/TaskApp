@@ -1,97 +1,194 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# TaskApp
 
-# Getting Started
+TaskApp is a React Native application that allows users to manage their daily tasks efficiently. It provides secure Firebase authentication, offline task management, Firestore synchronization, and push notification support.
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+---
 
-## Step 1: Start Metro
+# Features
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+- **Firebase Authentication**
+  - Register a new account with email and password.
+  - Login using existing Firebase credentials.
+  - Form validation is implemented for both Login and Registration screens.
+  - If the user is already authenticated, the app automatically logs in using the stored credentials without requiring login every time.
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+- **Persistent Login**
+  - User information is securely stored in the device's internal storage after successful login.
+  - Users remain logged in until they explicitly log out.
 
-```sh
-# Using npm
+- **Task Management**
+  - Create new tasks.
+  - Edit existing tasks.
+  - Delete tasks.
+  - Mark tasks as completed using a checkbox.
+
+- **Offline Storage**
+  - All tasks are stored locally in the device database.
+  - Users can continue using the application without an internet connection.
+
+- **Firestore Synchronization**
+  - Completed tasks can be uploaded to Firebase Firestore.
+  - A **"Save Completed Tasks"** button appears only after one or more tasks are marked as completed.
+  - If there is no internet connection, completed tasks cannot be uploaded, and the application displays an appropriate validation message.
+
+- **Push Notifications**
+  - Local push notification support has been implemented.
+  - The notification infrastructure is ready.
+  - Once backend APIs are integrated, remote push notifications can be enabled without major changes.
+
+- **Environment Configuration**
+  - Environment-specific configuration has been implemented using a `.env` file.
+  - Separate environments can be maintained for:
+    - Development
+    - Staging
+    - Production
+
+---
+
+# Technology Stack
+
+- React Native CLI
+- TypeScript
+- Firebase Authentication
+- Firebase Firestore
+- React Navigation
+- Redux Toolkit
+- Local Database
+- Async Storage / Secure Internal Storage
+- Push Notifications
+- React Native Config (.env)
+
+---
+
+# Application Flow
+
+1. Register a new account if you are a new user.
+2. Existing users can log in using their Firebase credentials.
+3. User credentials are securely stored after successful login.
+4. The application automatically logs in authenticated users on subsequent launches.
+5. After login, the Home screen is displayed.
+6. Users can:
+   - Add tasks
+   - Edit tasks
+   - Delete tasks
+7. All tasks are saved locally.
+8. Mark a task as completed by selecting its checkbox.
+9. Once completed tasks exist, the **Save Completed Tasks** button becomes visible.
+10. Clicking the button uploads completed tasks to Firebase Firestore.
+11. If internet connectivity is unavailable, the upload is prevented and an appropriate validation message is shown.
+12. If a user attempts to upload a task that has already been saved to Firebase Firestore, the application displays a validation alert indicating that the task has already been uploaded. This prevents duplicate entries from being stored in the database and ensures data consistency.
+
+# Additional Features
+
+- Vector Icons
+1. The application uses React Native Vector Icons to provide a modern and intuitive user interface.
+2. Icons are used throughout the application to enhance usability and improve the overall user experience.
+
+# Responsive Dimension Utility
+
+1. A centralized dimensions utility file has been implemented to manage reusable values for height, width, margins, and padding.
+2. This approach ensures a consistent and responsive user interface across different Android and iOS screen sizes while improving code maintainability and reducing duplication.
+
+# ios support
+
+1. The application has been developed with support for both Android and iOS platforms.
+2. However, since a macOS environment was not available during development, the application has not been tested on an iOS simulator or physical iOS device.
+3. The iOS project structure and required dependencies are included, and the application is expected to work after verification in a macOS development environment.
+
+---
+
+# Project Setup
+
+## Install Dependencies
+
+```bash
+npm install
+```
+
+or
+
+```bash
+yarn install
+```
+
+---
+
+## Start Metro
+
+```bash
 npm start
+```
 
-# OR using Yarn
+or
+
+```bash
 yarn start
 ```
 
-## Step 2: Build and run your app
+---
 
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
+## Run Android
 
-### Android
-
-```sh
-# Using npm
+```bash
 npm run android
+```
 
-# OR using Yarn
+or
+
+```bash
 yarn android
 ```
 
-### iOS
+---
 
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
+## Run iOS
 
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
+Install CocoaPods first:
 
-```sh
+```bash
 bundle install
-```
-
-Then, and every time you update your native dependencies, run:
-
-```sh
 bundle exec pod install
 ```
 
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
+Then run:
 
-```sh
-# Using npm
+```bash
 npm run ios
+```
 
-# OR using Yarn
+or
+
+```bash
 yarn ios
 ```
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
+---
 
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
+# Environment Variables
 
-## Step 3: Modify your app
+Create a `.env` file for environment-specific configuration.
 
-Now that you have successfully run the app, let's make changes!
+Example:
 
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
 
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
+Separate environment files can be maintained for:
 
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
+- `.env.dev`
+- `.env.staging`
+- `.env.production`
 
-## Congratulations! :tada:
+---
 
-You've successfully run and modified your React Native App. :partying_face:
+# Future Enhancements
 
-### Now what?
+- Remote Push Notifications using Backend APIs
+- Task Categories
+- Due Date & Reminder Support
+- Cloud Synchronization
+- Task Search & Filtering
 
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
+---
 
-# Troubleshooting
+# Author
 
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+**Avishek Biswas**
