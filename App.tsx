@@ -8,9 +8,6 @@ import { store } from './src/store';
 
 const App = () => {
 
-//  useEffect(() => {
-//     initializeNotification();
-//   }, []);
 
   return (
     <SafeAreaProvider>

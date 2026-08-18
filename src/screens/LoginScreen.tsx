@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from "react";
 import {
+  Alert,
   Text,
   TextInput,
   TouchableOpacity,
@@ -100,13 +101,13 @@ const LoginScreen: React.FC = ({ navigation }: any) => {
       // Save encrypted credentials
       await saveCredentials(email, password, name);
 
-      showToast("Login Successful", "success","bottom");
+      Alert.alert("Login Successful", 'Welcome back');
 
       navigation.navigate("Home", {
         user: userData,
       });
     } catch (error: any) {
-     showToast(error.message || "Login failed", "error","bottom");
+      Alert.alert("Login Error", error.message || "Credential missmatch.");
     } finally {
       setLoading(false);
     }

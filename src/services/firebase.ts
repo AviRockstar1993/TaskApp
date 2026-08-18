@@ -65,30 +65,49 @@ export const getUserDetails = async (uid: string): Promise<any | null> => {
   }
 };
 export const saveTasksToFirestore = async (tasks: Task[]) => {
-  const uid = auth().currentUser?.uid;
+  try {
+    const user = auth().currentUser;
 
-  if (!uid) {
-    throw new Error("No user logged in");
+    console.log('🔥 Current Firebase user:', user?.uid);
+
+    if (!user) {
+      throw new Error('No user logged in');
+    }
+
+    const batch = firestore().batch();
+
+    for (const task of tasks) {
+      const ref = firestore()
+        .collection('users')
+        .doc(user.uid)
+        .collection('tasks')
+        .doc(String(task.id));
+
+      console.log('🔥 Saving task:', {
+        path: `users/${user.uid}/tasks/${task.id}`,
+        title: task.title,
+      });
+
+      batch.set(ref, {
+        id: task.id,
+        title: task.title,
+        completed: 1,
+        updatedAt: firestore.FieldValue.serverTimestamp(),
+      });
+    }
+
+    await batch.commit();
+
+    console.log('✅ Firestore batch commit successful');
+
+  } catch (error: any) {
+    console.log('🔥 FIRESTORE SAVE ERROR');
+    console.log('Code:', error?.code);
+    console.log('Message:', error?.message);
+    console.log('Error:', error);
+
+    throw error;
   }
-
-  const batch = firestore().batch();
-
-  for (const task of tasks) {
-    const ref = firestore()
-      .collection("users")
-      .doc(uid)
-      .collection("tasks")
-      .doc(task.id.toString());
-
-    batch.set(ref, {
-      id: task.id,
-      title: task.title,
-      completed: 1,
-      updatedAt: firestore.FieldValue.serverTimestamp(),
-    });
-  }
-
-  await batch.commit();
 };
 
 export const isTaskAlreadySaved = async (
