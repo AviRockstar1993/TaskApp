@@ -54,7 +54,7 @@ TaskApp is a React Native application that allows users to manage their daily ta
 - React Navigation
 - Redux Toolkit
 - Local Database
-- Async Storage / Secure Internal Storage
+- Encrypted Storage
 - Push Notifications
 - React Native Config (.env)
 
